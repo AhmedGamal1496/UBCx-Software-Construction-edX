@@ -17,7 +17,7 @@ public class InfoManager {
 
     //TODO 5: write a command shortcut for your gym's name between the quotes below.
     //The command MUST be in lowercase.
-    private static final String YOUR_GYM_COMMAND = "yourgym";
+    private static final String YOUR_GYM_COMMAND = "JMB";
 
     private static final String MEMBERS_COMMAND = "members";
     private static final String SUNNY_GROVE_COMMAND = "sunny";
@@ -59,7 +59,7 @@ public class InfoManager {
         System.out.println("Enter '"+ PINE_VALLEY_COMMAND + "' for FitLife " + PINE_VALLEY_GYM_NAME);
         System.out.println("Enter '"+ PALM_LAKE_COMMAND + "' for FitLife " + PALM_LAKE_GYM_NAME);
         //TODO 5: uncomment the next method call:
-//        System.out.println("Enter '" + YOUR_GYM_COMMAND + "' for Fitlife " + YOUR_GYM_NAME);
+        System.out.println("Enter '" + YOUR_GYM_COMMAND + "' for Fitlife " + YOUR_GYM_NAME);
         System.out.println("To quit at any time, enter '"+ QUIT_COMMAND +"'.");
     }
 
@@ -77,7 +77,7 @@ public class InfoManager {
         for (FitnessClass fc : gym.getFitnessClasses()) {
             System.out.println(fc.getClassName() + ", " + fc.getDayAndTime());
         //TODO 6: uncomment the next line:
-//            handleRegisterMember(fc);
+            handleRegisterMember(fc);
         }
     }
 
@@ -87,11 +87,16 @@ public class InfoManager {
         //TODO 6: if member is eligible:
 //        register Member m for the class, print out a confirmation message,
 //        and call printRegisteredMembers
+        if (eligible){
+            fc.registerMember(m);
+            System.out.println("This member " + m.getName() + " is registered");
+            printRegisteredMembers(fc);
+        }
         //TODO 6: if the member is not eligible, print out the message below:
-
-        System.out.println("This member is not eligible to reserve classes. \n" +
-                "Their membership level is " + m.getLevel());
-
+        else {
+            System.out.println("This member is not eligible to reserve classes. \n" +
+                    "Their membership level is " + m.getLevel());
+        }
     }
 
     private void printRegisteredMembers(FitnessClass fc){
@@ -99,7 +104,9 @@ public class InfoManager {
         List<Member> memberList = fc.getMembersRegistered();
 
         //TODO 7: write a foreach loop that prints out the name of each member in memberList
-
+        for(Member m : memberList){
+            System.out.println(m.getName());
+        }
     }
 
     //EFFECTS: prints out the list of cardio machines at this gym
