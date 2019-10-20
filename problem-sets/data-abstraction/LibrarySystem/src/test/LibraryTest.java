@@ -17,12 +17,13 @@ public class LibraryTest {
     private Book textBook;
     private Book cookBook;
     private Library testLib;
-    private Librarian testLibrarian;
+    private Librarian testLibrarian, testLibrarian2;
 
     @Before
     public void setUp() {
         testLib = new Library("Vancouver Public model.library.Library", testLibrarian);
         testLibrarian = new Librarian("Alan Kay", 11, testLib, ficBook);
+        testLibrarian2 = new Librarian("Jimbo", 23, testLib, ficBook);
 
         refBook = new Book("Encyclopedia Britannica", "John Williams", REFERENCE, 1850, 1);
         refBook.setHomeLibrary(testLib);
@@ -69,5 +70,9 @@ public class LibraryTest {
         assertEquals(testLib.canLoan(textBook), true);
     }
 
+    @Test
+    public void testhireLibrarian() {
+        assertEquals(testLib.hireLibrarian(testLibrarian2), true);
+    }
 
 }

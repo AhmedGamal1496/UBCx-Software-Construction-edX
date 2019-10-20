@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Band {
@@ -12,34 +13,37 @@ public class Band {
 
     public Band(String name) {
         // TODO: complete the implementation of this method
+        this.name = name;
+        members = new ArrayList<>();
     }
 
     // getters
     public String getName() {
         // TODO: complete the implementation of this method
-        return null;
+        return name;
     }
     public double getTotalMoney() {
         // TODO: complete the implementation of this method
-        return 0.0;
+        return totalMoney;
     }
     public double getCurrentMoney() {
         // TODO: complete the implementation of this method
-        return 0.0;
+        return currentMoney;
     }
     public List<String> getMembers() {
         // TODO: complete the implementation of this method
-        return null;
+        return members;
     }
     public int getNumShowsPlayed() {
         // TODO: complete the implementation of this method
-        return 0;
+        return numShowsPlayed;
     }
 
     // MODIFIES: this
     // EFFECTS: adds a member with the given name to the band
     public void addMember(String name) {
         // TODO: complete the implementation of this method
+        members.add(name);
     }
 
     // MODIFIES: this
@@ -48,7 +52,10 @@ public class Band {
     //          the number of shows played.
     public void playGig(double amt) {
         // TODO: complete the implementation of this method
+        totalMoney += amt;
+        currentMoney += amt;
 
+        numShowsPlayed++;
     }
 
     // MODIFIES: this
@@ -57,6 +64,9 @@ public class Band {
     //          money, nothing happens
     public void payMembers(double amt) {
         // TODO: complete the implementation of this method
+        if (amt*members.size() < currentMoney) {
+            currentMoney -= amt*members.size();
+        }
     }
 
     // REQUIRES: numShowsPlayed > 0
@@ -64,7 +74,7 @@ public class Band {
     // EFFECTS: computes the average amount the band is payed per show
     public double averagePerShow() {
         // TODO: complete the implementation of this method
-        return 0.0;
+        return totalMoney/numShowsPlayed;
     }
 
 

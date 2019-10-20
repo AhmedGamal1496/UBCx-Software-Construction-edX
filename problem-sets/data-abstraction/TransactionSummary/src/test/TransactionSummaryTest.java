@@ -11,12 +11,14 @@ import static org.junit.Assert.assertTrue;
 
 public class TransactionSummaryTest {
 
-    private TransactionSummary testSummary;
+    private TransactionSummary testSummary, testSummary2;
     private Transaction t1, t2, t3, t4, t5, t6, t7;
 
     @Before
     public void setUp() {
         testSummary = new TransactionSummary("Donald Knuth");
+        testSummary2 = new TransactionSummary("Jimbo");
+
         t1 = new Transaction("Movie", "May 1st", 10, ENTERTAINMENT);
         t2 = new Transaction("Restaurant", "May 11th", 20, FOOD);
         t3 = new Transaction("Clothes", "May 9", 40, SHOPPING);
@@ -32,6 +34,9 @@ public class TransactionSummaryTest {
         testSummary.addTransaction(t5);
         testSummary.addTransaction(t6);
         testSummary.addTransaction(t7);
+
+        testSummary2.addTransaction(t1);
+        testSummary2.addTransaction(t3);
     }
 
     @Test
@@ -68,6 +73,7 @@ public class TransactionSummaryTest {
 
     @Test
     public void testspecificTypeAverage() {
+        assertEquals(testSummary2.specificTypeAverage(FOOD), 0.0, 0.05);
         assertEquals(testSummary.specificTypeAverage(FOOD), (11+5+20)/3, 0.05);
         assertEquals( testSummary.specificTypeAverage(EDUCATION), 150, 0.05);
     }

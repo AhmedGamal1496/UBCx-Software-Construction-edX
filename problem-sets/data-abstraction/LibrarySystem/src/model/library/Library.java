@@ -1,7 +1,9 @@
 package model.library;
 
 import model.book.Book;
+import model.book.BookType;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,24 +20,44 @@ public class Library {
 
     public Library(String nm, Librarian manager) {
         //TODO: complete the implementation of this method
+        this.name = nm;
+        this.manager = manager;
+        branches = new ArrayList<>();
+        referenceBooks = new LinkedList<>();
+        fictionBooks = new LinkedList<>();
+        nonfictionBooks = new LinkedList<>();
+        textBooks = new LinkedList<>();
+        cookBooks = new LinkedList<>();
     }
 
     // getters
-    public String getName() {
-        //TODO: complete the implementation of this method
-        return null;
-    }
-
-    public Librarian getManager() {
-        //TODO: complete the implementation of this method
-        return null;
-    }
+    public String getName() { return name; }
+    public Librarian getManager() { return manager; }
 
     // REQUIRES: bk != null
     // MODIFIES: this
     // EFFECTS: stores the given Book bk into the appropriate container within this class
     public void storeBook(Book bk) {
         //TODO: complete the implementation of this method
+         BookType type = bk.getType();
+
+         switch (type) {
+             case REFERENCE:
+                 this.referenceBooks.add(bk);
+                 break;
+             case NONFICTION:
+                 this.nonfictionBooks.add(bk);
+                 break;
+             case FICTION:
+                 this.fictionBooks.add(bk);
+                 break;
+             case TEXTBOOK:
+                 this.textBooks.add(bk);
+                 break;
+             case COOKING:
+                 this.cookBooks.add(bk);
+                 break;
+         }
     }
 
     // REQUIRES: bk != null
@@ -43,22 +65,42 @@ public class Library {
     //          regardless of its loan status, else return false
     public boolean inCatalogue(Book bk) {
         //TODO: complete the implementation of this method
-        return false;
+        BookType searchType = bk.getType();
+
+        switch (searchType) {
+            case REFERENCE:
+                return referenceBooks.contains(bk);
+            case NONFICTION:
+                return nonfictionBooks.contains(bk);
+            case FICTION:
+                return fictionBooks.contains(bk);
+            case TEXTBOOK:
+                return textBooks.contains(bk);
+            case COOKING:
+                return cookBooks.contains(bk);
+            default:
+                return false;
+        }
     }
 
     // REQUIRES: bk != null
     // EFFECTS: return true if the given book is available to loan
     //          Note: What requirements should a book meet to be available?
     public boolean canLoan(Book bk) {
-        //TODO: complete the implementation of this method
-        return true;
-    }
+            return !bk.onLoan() && inCatalogue(bk);
+        }
 
     // REQUIRES: bk != null
     // EFFECTS: return true if the given book is available in the catalogue of this library's
     //          other branches; else, return false
     public boolean isInDiffBranch(Book bk) {
         //TODO: complete the implementation of this method
+        for (Library library : branches) {
+            if (library.inCatalogue(bk)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -68,7 +110,14 @@ public class Library {
     //          return true if successful, else false
     public boolean checkOutBook(Book bk) {
         //TODO: complete the implementation of this method
-        return false;
+        if (this.canLoan(bk)) {
+            bk.nowOnLoan();
+            return true;
+        }
+        else {
+            bk.notOnLoan();
+            return false;
+        }
     }
 
     // REQUIRES: bk != null
@@ -77,6 +126,10 @@ public class Library {
     //          return true if successful, otherwise false
     public boolean returnBook(Book bk) {
         //TODO: complete the implementation of this method
+        if (bk.onLoan()) {
+            bk.notOnLoan();
+            return true;
+        }
         return false;
     }
 
@@ -85,6 +138,11 @@ public class Library {
     // EFFECTS: sets this library's librarian to manager; return true if successful, else false
     public boolean hireLibrarian(Librarian manager) {
         //TODO: complete the implementation of this method
+        if (this.manager != manager) {
+            this.manager = manager;
+            manager.changeLibrary(this);
+            return true;
+        }
         return false;
     }
 

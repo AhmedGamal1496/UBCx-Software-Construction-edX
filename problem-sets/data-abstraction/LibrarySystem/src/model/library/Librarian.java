@@ -11,25 +11,17 @@ public class Librarian {
 
     public Librarian(String name, int age, Library lib, Book bk) {
         //TODO: complete the specifications and implementation of this method
+        this.name = name;
+        this.age = age;
+        managingLibrary = lib;
+        favBook = bk;
     }
 
     // getters
-    public String getName() {
-        //TODO: complete the specifications and implementation of this method
-        return null;
-    }
-    public int getAge() {
-        //TODO: complete the specifications and implementation of this method
-        return 0;
-    }
-    public Library getManagingLibrary() {
-        //TODO: complete the specifications and implementation of this method
-        return null;
-    }
-    public Book getFavBook() {
-        //TODO: complete the specifications and implementation of this method
-        return null;
-    }
+    public String getName() { return name;}
+    public int getAge() { return age; }
+    public Library getManagingLibrary() { return managingLibrary; }
+    public Book getFavBook() { return favBook; }
 
     // REQUIRES: lib != null
     // MODIFIES: this
@@ -39,6 +31,11 @@ public class Librarian {
     //          difference in the implementation of this method?
     public boolean changeLibrary(Library lib) {
         //TODO: complete the specifications and implementation of this method
+        if (!managingLibrary.equals(lib)) {
+            managingLibrary = lib;
+            lib.hireLibrarian(this);
+            return true;
+        }
         return false;
     }
 
